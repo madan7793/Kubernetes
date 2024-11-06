@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: hello-world-container
-      image: madanmohan7793/myapp:hello-world # Using nginx as a basic web server image
+      image: madanmohan7793/myapp:hello-world # Using nginx as a basic web server image ..
       ports:
         - containerPort: 80
