@@ -43,4 +43,4 @@ jobs:
       - name: Deploy to AKS
         run: |
           kubectl apply -f hello_world.yml
-          kubectl apply -f service.yaml
+          kubectl apply -f service.yml
