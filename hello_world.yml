@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-world-testing-ci-cd  # Updated name to lowercase and removed underscores
+  name: hello-world-testing-ci-cd-now-okay # Updated name to lowercase and removed underscores
   labels:
     app: hello-world
 spec:
