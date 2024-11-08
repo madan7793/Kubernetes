@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-world-testing-ci-cd
+  name: hello-world-testing
   labels:
     app: hello-world
 spec:
