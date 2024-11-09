@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: hello-world-container
-      image: madanmohan7793/myapp:hello-world  # Ensure this is the latest image tag
+      image: madanmohan7793/myapp:v1 # Ensure this is the latest image tag
       ports:
         - containerPort: 80  # The port the container listens on
       imagePullPolicy: Always  # Ensures Kubernetes always pulls the latest image
