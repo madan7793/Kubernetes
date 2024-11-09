@@ -42,5 +42,6 @@ jobs:
       # Deploy Application to AKS
       - name: Deploy to AKS
         run: |
+          kubectl delete pod hello-world-testing
           kubectl apply -f hello_world.yml
           kubectl apply -f service.yml
