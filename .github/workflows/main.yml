@@ -1,5 +1,4 @@
-# .github/workflows/deploy-app.yml
-name: Deploy Application to AKS
+name: Deploy Application to AWS EKS
 
 on:
   push:
@@ -12,36 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      CLUSTER_NAME: "example-eks-cluster"  # Replace with your EKS cluster name
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Install Azure CLI
-      - name: Set up Azure CLI
+      # Install AWS CLI
+      - name: Install AWS CLI
         run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
 
-      # Login to Azure CLI with Service Principal
-      - name: Azure CLI Login
+      # Configure AWS credentials
+      - name: Configure AWS Credentials
         run: |
-          az login --service-principal \
-            --username $ARM_CLIENT_ID \
-            --password $ARM_CLIENT_SECRET \
-            --tenant $ARM_TENANT_ID
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set region $AWS_REGION
 
-      # Get AKS Credentials
-      - name: Configure kubectl with AKS credentials
+      # Set up kubectl for EKS
+      - name: Set up kubectl with EKS credentials
         run: |
-          az aks get-credentials --resource-group test --name myAKSCluster
+          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
 
-      # Deploy Application to AKS
-      - name: Deploy to AKS
+      # Deploy Application to EKS
+      - name: Deploy to EKS
         run: |
-          kubectl delete pod hello-world-testing
+          kubectl delete pod hello-world-testing || true
           kubectl apply -f hello_world.yml
           kubectl apply -f service.yml
