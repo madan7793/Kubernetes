@@ -49,6 +49,5 @@ jobs:
       # Deploy Application to EKS
       - name: Deploy to EKS
         run: |
-          kubectl delete pod hello-world-testing || true
           kubectl apply -f hello_world.yml
           kubectl apply -f service.yml
