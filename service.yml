@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-world-service
+  name: hello-world
 spec:
+  type: LoadBalancer
   selector:
     app: hello-world
   ports:
-    - protocol: TCP
-      port: 80              # Port exposed externally
-      targetPort: 80         # Port inside the Pod where the application is running
-  type: LoadBalancer        # Expose the service externally via a LoadBalancer
+    - port: 80
+      targetPort: 8080

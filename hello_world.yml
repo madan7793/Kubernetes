@@ -1,13 +1,19 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: hello-world-testing  # Name of the Pod
-  labels:
-    app: hello-world         # Label for identifying the app
+  name: hello-world
 spec:
-  containers:
-    - name: hello-world-container
-      image: madanmohan7793/myapp:v2 # Ensure this is the latest image tag
-      ports:
-        - containerPort: 80  # The port the container listens on
-      imagePullPolicy: Always  # Ensures Kubernetes always pulls the latest image
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: madanmohan7793/myapp:v2 
+        ports:
+        - containerPort: 8080
